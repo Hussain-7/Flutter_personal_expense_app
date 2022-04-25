@@ -44,7 +44,8 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(title: Text('Flutter App')),
         body: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Container(
                 width: double.infinity,
@@ -53,8 +54,40 @@ class MyHomePage extends StatelessWidget {
                   elevation: 5,
                 ),
               ),
-              Card(
-                child: Text('List of transactions'),
+              Column(
+                children: transaction.map((tx) {
+                  return Card(
+                      child: Row(children: <Widget>[
+                    Container(
+                        margin: EdgeInsets.all(10),
+                        padding: EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                color: Colors.purple,
+                                width: 2,
+                                style: BorderStyle.solid)),
+                        child: Text("${tx.amount}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Colors.purple))),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(tx.title,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            )),
+                        Text(tx.date.toString(),
+                            style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey))
+                      ],
+                    ),
+                  ]));
+                }).toList(),
               ),
             ]));
   }
