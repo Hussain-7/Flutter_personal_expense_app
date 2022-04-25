@@ -40,12 +40,17 @@ class MyHomePage extends StatelessWidget {
     Transaction(
         id: "t3", title: "New Hat", amount: 69.99, date: DateTime.now()),
   ];
+  late String titleInput;
+  late String amountInput;
+  final titleController = TextEditingController();
+  final amountController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Flutter App')),
+        appBar: AppBar(title: const Text('Flutter App')),
         body: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            // mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Container(
@@ -53,6 +58,38 @@ class MyHomePage extends StatelessWidget {
                 child: Card(
                   child: Text('Chart!'),
                   elevation: 5,
+                ),
+              ),
+              Card(
+                elevation: 5,
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        TextField(
+                          decoration: InputDecoration(labelText: 'Title'),
+                          // onChanged: (String value) => titleInput = value
+                          controller: titleController,
+                        ),
+                        TextField(
+                          decoration: InputDecoration(labelText: 'Amount'),
+                          // onChanged: (String value) => amountInput = value
+                          controller: amountController,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: TextButton(
+                              style: TextButton.styleFrom(
+                                primary: Colors.purple,
+                              ),
+                              child: const Text("Add Transaction"),
+                              onPressed: () {
+                                print(titleController.text);
+                                print(amountController.text);
+                              }),
+                        )
+                      ]),
                 ),
               ),
               Column(
