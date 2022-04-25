@@ -37,21 +37,19 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('Flutter App')),
-        body: SingleChildScrollView(
-          child: Column(
-              // mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Container(
-                  width: double.infinity,
-                  child: Card(
-                    child: Text('Chart!'),
-                    elevation: 5,
-                  ),
-                ),
-                UserTransaction()
-              ]),
-        ));
+      appBar: AppBar(title: const Text('Flutter App')),
+      body: ListView(
+          // mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              width: double.infinity,
+              child: Card(
+                child: Text('Chart!'),
+                elevation: 5,
+              ),
+            ),
+            UserTransaction()
+          ]),
+    );
   }
 }
