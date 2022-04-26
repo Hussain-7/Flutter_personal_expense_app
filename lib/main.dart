@@ -100,6 +100,58 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
+  List<Widget> _buildLandscapeContent(
+      MediaQueryData mediaQuery, AppBar appBar, Widget TxListWidget) {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            'Show Chart',
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          Switch.adaptive(
+            value: showChart,
+            activeColor: Theme.of(context).accentColor,
+            onChanged: (val) {
+              print("In on changed: $val");
+              setState(() {
+                showChart = val;
+              });
+            },
+          ),
+        ],
+      ),
+      showChart
+          ? Container(
+              height: (mediaQuery.size.height -
+                      appBar.preferredSize.height -
+                      mediaQuery.padding.top) *
+                  0.7,
+              child: Chart(
+                _userTransaction,
+              ),
+            )
+          : TxListWidget
+    ];
+  }
+
+  List<Widget> _buildPotraitContent(
+      MediaQueryData mediaQuery, AppBar appBar, Widget TxListWidget) {
+    return [
+      Container(
+        height: (mediaQuery.size.height -
+                appBar.preferredSize.height -
+                mediaQuery.padding.top) *
+            0.3,
+        child: Chart(
+          _userTransaction,
+        ),
+      ),
+      TxListWidget
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -123,6 +175,7 @@ class _MyHomePageState extends State<MyHomePage> {
           transactions: _recentTransactions,
           deleteTransaction: _deleteTransaction),
     );
+
     return Scaffold(
       appBar: appBar,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -133,48 +186,9 @@ class _MyHomePageState extends State<MyHomePage> {
           // mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             if (isLandscape)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'Show Chart',
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  Switch.adaptive(
-                    value: showChart,
-                    activeColor: Theme.of(context).accentColor,
-                    onChanged: (val) {
-                      print("In on changed: $val");
-                      setState(() {
-                        showChart = val;
-                      });
-                    },
-                  ),
-                ],
-              ),
+              ..._buildLandscapeContent(mediaQuery, appBar, TxListWidget),
             if (!isLandscape)
-              Container(
-                height: (mediaQuery.size.height -
-                        appBar.preferredSize.height -
-                        mediaQuery.padding.top) *
-                    0.3,
-                child: Chart(
-                  _userTransaction,
-                ),
-              ),
-            if (!isLandscape) TxListWidget,
-            if (isLandscape)
-              showChart
-                  ? Container(
-                      height: (mediaQuery.size.height -
-                              appBar.preferredSize.height -
-                              mediaQuery.padding.top) *
-                          0.7,
-                      child: Chart(
-                        _userTransaction,
-                      ),
-                    )
-                  : TxListWidget
+              ..._buildPotraitContent(mediaQuery, appBar, TxListWidget),
           ]),
     );
   }

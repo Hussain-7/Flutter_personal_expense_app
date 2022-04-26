@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:personal_expense_app/models/transaction.dart';
+import 'package:personal_expense_app/widgets/transaction_item.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
@@ -27,42 +27,15 @@ class TransactionList extends StatelessWidget {
         : ListView.builder(
             itemCount: transactions.length,
             itemBuilder: (ctx, index) {
-              return Card(
-                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
-                child: ListTile(
-                  leading: CircleAvatar(
-                    radius: 30,
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: FittedBox(
-                          child: Text(
-                              "\$${transactions[index].amount.toStringAsFixed(2)}")),
-                    ),
-                  ),
-                  title: Text(
-                    transactions[index].title,
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  subtitle: Text(
-                    DateFormat.yMMMd().format(transactions[index].date),
-                  ),
-                  trailing: mediaQuery.size.width > 430
-                      ? FlatButton.icon(
-                          icon: Icon(Icons.delete),
-                          label: Text("Delete"),
-                          textColor: Theme.of(context).errorColor,
-                          onPressed: () =>
-                              deleteTransaction(transactions[index].id))
-                      : IconButton(
-                          tooltip: "Delete this record",
-                          iconSize: 20,
-                          icon: Icon(Icons.delete),
-                          color: Theme.of(context).errorColor,
-                          onPressed: () =>
-                              deleteTransaction(transactions[index].id)),
-                ),
-              );
-            }
+              return TransactionItem(
+                  transaction: transactions[index],
+                  deleteTransaction: deleteTransaction);
+            });
+  }
+}
+         
+           
+       
             // return Card(
             //   child: Row(children: <Widget>[
             //     Container(
@@ -102,6 +75,4 @@ class TransactionList extends StatelessWidget {
             //   ]),
             // );
             // }),
-            );
-  }
-}
+          
