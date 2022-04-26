@@ -27,7 +27,20 @@ class MyApp extends StatelessWidget {
           // is not restarted.
 
           primarySwatch: Colors.purple,
-          accentColor: Colors.amber),
+          accentColor: Colors.amber,
+          fontFamily: 'Quicksand',
+          textTheme: ThemeData.light().textTheme.copyWith(
+                  headline6: const TextStyle(
+                fontFamily: 'OpenSans',
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+                fontSize: 16,
+              )),
+          appBarTheme: const AppBarTheme(
+              titleTextStyle: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold))),
       debugShowCheckedModeBanner: false,
       home: MyHomePage(),
     );
@@ -41,18 +54,18 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransaction = [
-    Transaction(
-        id: "t1", title: "New shoes", amount: 69.99, date: DateTime.now()),
-    Transaction(
-        id: "t2", title: "New Bat", amount: 69.99, date: DateTime.now()),
-    Transaction(
-        id: "t3", title: "New Hat", amount: 69.99, date: DateTime.now()),
-    Transaction(
-        id: "t3", title: "New Hat", amount: 69.99, date: DateTime.now()),
-    Transaction(
-        id: "t3", title: "New Hat", amount: 69.99, date: DateTime.now()),
-    Transaction(
-        id: "t3", title: "New Hat", amount: 69.99, date: DateTime.now()),
+    // Transaction(
+    //     id: "t1", title: "New shoes", amount: 69.99, date: DateTime.now()),
+    // Transaction(
+    //     id: "t2", title: "New Bat", amount: 69.99, date: DateTime.now()),
+    // Transaction(
+    //     id: "t3", title: "New Hat", amount: 69.99, date: DateTime.now()),
+    // Transaction(
+    //     id: "t3", title: "New Hat", amount: 69.99, date: DateTime.now()),
+    // Transaction(
+    //     id: "t3", title: "New Hat", amount: 69.99, date: DateTime.now()),
+    // Transaction(
+    //     id: "t3", title: "New Hat", amount: 69.99, date: DateTime.now()),
   ];
 
   void _addNewTransaction(String txTitle, double txAmount) {
@@ -82,7 +95,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Personal Expenses'),
+        title: Text('Personal Expenses',
+            style: Theme.of(context).appBarTheme.titleTextStyle),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add),
