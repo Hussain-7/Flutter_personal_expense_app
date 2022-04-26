@@ -31,12 +31,13 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.amber,
           fontFamily: 'Quicksand',
           textTheme: ThemeData.light().textTheme.copyWith(
-                  headline6: const TextStyle(
+              headline6: const TextStyle(
                 fontFamily: 'OpenSans',
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
                 fontSize: 16,
-              )),
+              ),
+              button: const TextStyle(color: Colors.white)),
           appBarTheme: const AppBarTheme(
               titleTextStyle: TextStyle(
                   fontFamily: 'OpenSans',
@@ -61,22 +62,22 @@ class _MyHomePageState extends State<MyHomePage> {
         id: "t2",
         title: "New Bat",
         amount: 69.99,
-        date: DateTime.now().subtract(Duration(days: 0))),
+        date: DateTime.now().subtract(Duration(days: 5))),
     Transaction(
         id: "t3",
         title: "New Hat",
         amount: 69.99,
-        date: DateTime.now().subtract(Duration(days: 0))),
+        date: DateTime.now().subtract(Duration(days: 5))),
     Transaction(
         id: "t3",
         title: "New Hat",
         amount: 69.99,
-        date: DateTime.now().subtract(Duration(days: 0))),
+        date: DateTime.now().subtract(Duration(days: 5))),
     Transaction(
         id: "t3",
         title: "New Hat",
         amount: 69.99,
-        date: DateTime.now().subtract(Duration(days: 0))),
+        date: DateTime.now().subtract(Duration(days: 1))),
     Transaction(
         id: "t3",
         title: "New Hat",
