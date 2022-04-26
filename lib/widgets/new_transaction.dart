@@ -21,10 +21,11 @@ class _NewTransactionState extends State<NewTransaction> {
       return;
     }
     final enteredAmount = double.parse(_amountController.text);
-    if (enteredTitle.isEmpty || enteredAmount <= 0) {
+    if (enteredTitle.isEmpty || enteredAmount <= 0 || _selectedDate == null) {
       return;
     }
-    widget.addTx(_titleController.text, double.parse(_amountController.text));
+    widget.addTx(_titleController.text, double.parse(_amountController.text),
+        _selectedDate);
     // To close the bottom sheet after we pass input
     Navigator.of(context).pop();
   }
@@ -70,9 +71,11 @@ class _NewTransactionState extends State<NewTransaction> {
               Container(
                 height: 70,
                 child: Row(children: <Widget>[
-                  Text(_selectedDate == null
-                      ? "No date Chosen!"
-                      : DateFormat.yMd().format(_selectedDate as DateTime)),
+                  Expanded(
+                    child: Text(_selectedDate == null
+                        ? "No date Chosen!"
+                        : "Picked Date : ${DateFormat.yMd().format(_selectedDate as DateTime)}"),
+                  ),
                   FlatButton(
                       textColor: Theme.of(context).primaryColor,
                       child: const Text("Choose Date",

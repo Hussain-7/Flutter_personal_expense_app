@@ -56,33 +56,33 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransaction = [
-    Transaction(
-        id: "t1", title: "New shoes", amount: 69.99, date: DateTime.now()),
-    Transaction(
-        id: "t2",
-        title: "New Bat",
-        amount: 69.99,
-        date: DateTime.now().subtract(Duration(days: 5))),
-    Transaction(
-        id: "t3",
-        title: "New Hat",
-        amount: 69.99,
-        date: DateTime.now().subtract(Duration(days: 5))),
-    Transaction(
-        id: "t3",
-        title: "New Hat",
-        amount: 69.99,
-        date: DateTime.now().subtract(Duration(days: 5))),
-    Transaction(
-        id: "t3",
-        title: "New Hat",
-        amount: 69.99,
-        date: DateTime.now().subtract(Duration(days: 1))),
-    Transaction(
-        id: "t3",
-        title: "New Hat",
-        amount: 69.99,
-        date: DateTime.now().subtract(Duration(days: 1))),
+    // Transaction(
+    //     id: "t1", title: "New shoes", amount: 69.99, date: DateTime.now()),
+    // Transaction(
+    //     id: "t2",
+    //     title: "New Bat",
+    //     amount: 69.99,
+    //     date: DateTime.now().subtract(Duration(days: 5))),
+    // Transaction(
+    //     id: "t3",
+    //     title: "New Hat",
+    //     amount: 69.99,
+    //     date: DateTime.now().subtract(Duration(days: 5))),
+    // Transaction(
+    //     id: "t3",
+    //     title: "New Hat",
+    //     amount: 69.99,
+    //     date: DateTime.now().subtract(Duration(days: 5))),
+    // Transaction(
+    //     id: "t3",
+    //     title: "New Hat",
+    //     amount: 69.99,
+    //     date: DateTime.now().subtract(Duration(days: 1))),
+    // Transaction(
+    //     id: "t3",
+    //     title: "New Hat",
+    //     amount: 69.99,
+    //     date: DateTime.now().subtract(Duration(days: 1))),
   ];
   List<Transaction> get _recentTransactions {
     return _userTransaction.where((tx) {
@@ -94,14 +94,21 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String txTitle, double txAmount) {
+  void _addNewTransaction(
+      String txTitle, double txAmount, DateTime chosenDate) {
     final newTx = Transaction(
         title: txTitle,
         amount: txAmount,
-        date: DateTime.now(),
+        date: chosenDate,
         id: DateTime.now().toString());
     setState(() {
       _userTransaction.add(newTx);
+    });
+  }
+
+  void _deleteTransaction(String id) {
+    setState(() {
+      _userTransaction.removeWhere((tx) => tx.id == id);
     });
   }
 
@@ -140,7 +147,9 @@ class _MyHomePageState extends State<MyHomePage> {
             Chart(
               _userTransaction,
             ),
-            TransactionList(transactions: _recentTransactions),
+            TransactionList(
+                transactions: _recentTransactions,
+                deleteTransaction: _deleteTransaction),
           ]),
     );
   }
