@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:personal_expense_app/models/transaction.dart';
+import 'package:personal_expense_app/widgets/chart.dart';
 import 'package:personal_expense_app/widgets/new_transaction.dart';
 import 'package:personal_expense_app/widgets/transaction_list.dart';
 
@@ -54,19 +55,43 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransaction = [
-    // Transaction(
-    //     id: "t1", title: "New shoes", amount: 69.99, date: DateTime.now()),
-    // Transaction(
-    //     id: "t2", title: "New Bat", amount: 69.99, date: DateTime.now()),
-    // Transaction(
-    //     id: "t3", title: "New Hat", amount: 69.99, date: DateTime.now()),
-    // Transaction(
-    //     id: "t3", title: "New Hat", amount: 69.99, date: DateTime.now()),
-    // Transaction(
-    //     id: "t3", title: "New Hat", amount: 69.99, date: DateTime.now()),
-    // Transaction(
-    //     id: "t3", title: "New Hat", amount: 69.99, date: DateTime.now()),
+    Transaction(
+        id: "t1", title: "New shoes", amount: 69.99, date: DateTime.now()),
+    Transaction(
+        id: "t2",
+        title: "New Bat",
+        amount: 69.99,
+        date: DateTime.now().subtract(Duration(days: 0))),
+    Transaction(
+        id: "t3",
+        title: "New Hat",
+        amount: 69.99,
+        date: DateTime.now().subtract(Duration(days: 0))),
+    Transaction(
+        id: "t3",
+        title: "New Hat",
+        amount: 69.99,
+        date: DateTime.now().subtract(Duration(days: 0))),
+    Transaction(
+        id: "t3",
+        title: "New Hat",
+        amount: 69.99,
+        date: DateTime.now().subtract(Duration(days: 0))),
+    Transaction(
+        id: "t3",
+        title: "New Hat",
+        amount: 69.99,
+        date: DateTime.now().subtract(Duration(days: 1))),
   ];
+  List<Transaction> get _recentTransactions {
+    return _userTransaction.where((tx) {
+      return tx.date.isAfter(
+        DateTime.now().subtract(
+          Duration(days: 7),
+        ),
+      );
+    }).toList();
+  }
 
   void _addNewTransaction(String txTitle, double txAmount) {
     final newTx = Transaction(
@@ -111,14 +136,10 @@ class _MyHomePageState extends State<MyHomePage> {
       body: ListView(
           // mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Container(
-              width: double.infinity,
-              child: Card(
-                child: Text('Chart!'),
-                elevation: 5,
-              ),
+            Chart(
+              _userTransaction,
             ),
-            TransactionList(transactions: _userTransaction),
+            TransactionList(transactions: _recentTransactions),
           ]),
     );
   }
