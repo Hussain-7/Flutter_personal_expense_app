@@ -54,7 +54,7 @@ class _NewTransactionState extends State<NewTransaction> {
                   padding: const EdgeInsets.only(top: 10),
                   child: TextButton(
                     style: TextButton.styleFrom(
-                      primary: Colors.purple,
+                      primary: Theme.of(context).primaryColor,
                     ),
                     child: const Text("Add Transaction"),
                     onPressed: submitData,
