@@ -28,6 +28,7 @@ class TransactionList extends StatelessWidget {
             itemCount: transactions.length,
             itemBuilder: (ctx, index) {
               return TransactionItem(
+                  key: UniqueKey(),
                   transaction: transactions[index],
                   deleteTransaction: deleteTransaction);
             });

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:personal_expense_app/models/transaction.dart';
 import 'package:personal_expense_app/widgets/chart.dart';
 import 'package:personal_expense_app/widgets/new_transaction.dart';
@@ -56,8 +55,27 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   final List<Transaction> _userTransaction = Transaction.SeedArray();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print(state);
+  }
+
+  @override
+  @override
+  void dispose() {
+    WidgetsBinding.instance!.removeObserver(this);
+    super.dispose();
+  }
+
   List<Transaction> get _recentTransactions {
     return _userTransaction.where((tx) {
       return tx.date.isAfter(
