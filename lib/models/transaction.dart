@@ -25,27 +25,27 @@ class Transaction {
           amount: 120,
           date: DateTime.now().subtract(Duration(days: 7))),
       Transaction(
-          id: "t3",
+          id: "t4",
           title: "Chai",
           amount: 100,
           date: DateTime.now().subtract(Duration(days: 5))),
       Transaction(
-          id: "t3",
+          id: "t5",
           title: "Donunts from go with flow",
           amount: 500,
           date: DateTime.now().subtract(Duration(days: 2))),
       Transaction(
-          id: "t3",
+          id: "t6",
           title: "some khappas",
           amount: 1500,
           date: DateTime.now().subtract(Duration(days: 1))),
       Transaction(
-          id: "t3",
+          id: "t7",
           title: "Random bill",
           amount: 900,
           date: DateTime.now().subtract(Duration(days: 3))),
       Transaction(
-          id: "t3",
+          id: "t8",
           title: "bowling at mega zone",
           amount: 1100,
           date: DateTime.now().subtract(Duration(days: 4))),
