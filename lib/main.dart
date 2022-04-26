@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:personal_expense_app/models/transaction.dart';
 import 'package:personal_expense_app/widgets/chart.dart';
 import 'package:personal_expense_app/widgets/new_transaction.dart';
 import 'package:personal_expense_app/widgets/transaction_list.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // WidgetsFlutterBinding.ensureInitialized();
+    // SystemChrome.setPreferredOrientations(
+    //     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return MaterialApp(
       title: 'Personal Expenses',
       theme: ThemeData(
@@ -55,35 +57,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _userTransaction = [
-    // Transaction(
-    //     id: "t1", title: "New shoes", amount: 69.99, date: DateTime.now()),
-    // Transaction(
-    //     id: "t2",
-    //     title: "New Bat",
-    //     amount: 69.99,
-    //     date: DateTime.now().subtract(Duration(days: 5))),
-    // Transaction(
-    //     id: "t3",
-    //     title: "New Hat",
-    //     amount: 69.99,
-    //     date: DateTime.now().subtract(Duration(days: 5))),
-    // Transaction(
-    //     id: "t3",
-    //     title: "New Hat",
-    //     amount: 69.99,
-    //     date: DateTime.now().subtract(Duration(days: 5))),
-    // Transaction(
-    //     id: "t3",
-    //     title: "New Hat",
-    //     amount: 69.99,
-    //     date: DateTime.now().subtract(Duration(days: 1))),
-    // Transaction(
-    //     id: "t3",
-    //     title: "New Hat",
-    //     amount: 69.99,
-    //     date: DateTime.now().subtract(Duration(days: 1))),
-  ];
+  final List<Transaction> _userTransaction = Transaction.SeedArray();
   List<Transaction> get _recentTransactions {
     return _userTransaction.where((tx) {
       return tx.date.isAfter(
@@ -93,6 +67,8 @@ class _MyHomePageState extends State<MyHomePage> {
       );
     }).toList();
   }
+
+  bool showChart = false;
 
   void _addNewTransaction(
       String txTitle, double txAmount, DateTime chosenDate) {
@@ -126,17 +102,29 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+    final appBar = AppBar(
+      title: Text('Personal Expenses',
+          style: Theme.of(context).appBarTheme.titleTextStyle),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () => startAddNewTransaction(context),
+        )
+      ],
+    );
+    final TxListWidget = Container(
+      height: (MediaQuery.of(context).size.height -
+              appBar.preferredSize.height -
+              MediaQuery.of(context).padding.top) *
+          0.7,
+      child: TransactionList(
+          transactions: _recentTransactions,
+          deleteTransaction: _deleteTransaction),
+    );
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Personal Expenses',
-            style: Theme.of(context).appBarTheme.titleTextStyle),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => startAddNewTransaction(context),
-          )
-        ],
-      ),
+      appBar: appBar,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
           onPressed: () => startAddNewTransaction(context),
@@ -144,12 +132,48 @@ class _MyHomePageState extends State<MyHomePage> {
       body: ListView(
           // mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Chart(
-              _userTransaction,
-            ),
-            TransactionList(
-                transactions: _recentTransactions,
-                deleteTransaction: _deleteTransaction),
+            if (isLandscape)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Show Chart',
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  Switch(
+                    value: showChart,
+                    onChanged: (val) {
+                      print("In on changed: $val");
+                      setState(() {
+                        showChart = val;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            if (!isLandscape)
+              Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.3,
+                child: Chart(
+                  _userTransaction,
+                ),
+              ),
+            if (!isLandscape) TxListWidget,
+            if (isLandscape)
+              showChart
+                  ? Container(
+                      height: (MediaQuery.of(context).size.height -
+                              appBar.preferredSize.height -
+                              MediaQuery.of(context).padding.top) *
+                          0.7,
+                      child: Chart(
+                        _userTransaction,
+                      ),
+                    )
+                  : TxListWidget
           ]),
     );
   }
